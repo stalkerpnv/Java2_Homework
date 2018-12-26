@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Java. Level 2* Lesson 2. Homework 2.
  *
@@ -16,31 +18,38 @@
 public class Homework2 {
     private static int sumArray(String[][] strArray)throws ArrayIndexOutOfBoundsException, NumberFormatException{
         int sum = 0;
-        if(strArray.length!=4 && strArray[0].length!=4){
-            throw  new ArrayIndexOutOfBoundsException();
+        if(strArray.length!=4){
+            throw  new ArrayIndexOutOfBoundsException("Выход за пределы массива");
         }
-        else{
-            for(int i = 0; i<strArray.length; i++){
-                for(int j = 0; j<strArray[i].length; j++){
-                    sum = sum + Integer.valueOf(strArray[i][j]);
+                for (int i = 0; i < strArray.length; i++) {
+                    if(strArray[i].length!=4){
+                        throw  new ArrayIndexOutOfBoundsException("Выход за пределы массива");
+                    }
+                    for (int j = 0; j < strArray[i].length; j++) {
+                        try {
+                            sum = sum + Integer.parseInt(strArray[i][j]);
+                        }
+                        catch(NumberFormatException ex){
+                            throw  new NumberFormatException("Плохой символ в строке " + (i+1) + " колонке " + (j+1));
+                        }
+                    }
                 }
-            }
-        }
+
         return sum;
     }
     public static void main(String[]args){
         try{
             String [][]strArray ={
                     {"1","2","3","4"},
+                    {"5","6","7","8"},
+                    {"1","2","3","4"},
                     {"5","6","7","8"}
                     };
+            System.out.println(Arrays.deepToString(strArray));
             System.out.println("Сумма элементов массива равна = " + sumArray(strArray));
         }
-        catch(ArrayIndexOutOfBoundsException arri){
-           System.out.println("Выход за пределы массива " + arri);
-        }
-        catch ( NumberFormatException nume){
-            System.out.println("Несоответствие типа элемента массива " + nume);
+        catch(ArrayIndexOutOfBoundsException | NumberFormatException ex){
+           System.out.println(ex.getMessage());
         }
     }
 }
